@@ -2,10 +2,9 @@ import { useEffect, useState } from "react";
 // import useSound from "use-sound";
 // import Sound from "";
 import SetTime from "./components/SetTime";
-import { Text } from "@chakra-ui/react";
+import { Button, Text } from "@chakra-ui/react";
 import ResetButton from "./components/ResetButton";
 import RemainingTime from "./components/RemainingTime";
-import Toggle from "./components/Toggle";
 
 const Timer = () => {
   const [seconds, setSeconds] = useState(0);
@@ -16,6 +15,16 @@ const Timer = () => {
   const [currentTime, setCurrentTime] = useState(0);
   const [timerSet, setTimerSet] = useState(false);
   // const [play] = useSound(Sound);
+
+  const handleRestartTimer = () => {
+    if (isRunning) {
+      setIsRunning(false);
+      setCurrentTime(time); // タイマーを停止した時点の時間で固定する
+    } else {
+      setIsRunning(true);
+      setTime(currentTime); // タイマーを再開する時は保持していた時間を使う
+    }
+  };
 
   const reset = () => {
     setTime(0);
@@ -73,14 +82,14 @@ const Timer = () => {
       )}
       <RemainingTime time={time} />
       <div>
-        <Toggle
-          isRunning={isRunning}
-          setIsRunning={setIsRunning}
-          time={time}
-          setTime={setTime}
-          currentTime={currentTime}
-          setCurrentTime={setCurrentTime}
-        />
+        <Button
+          colorScheme="blue"
+          margin="10"
+          w={40}
+          onClick={handleRestartTimer}
+        >
+          {isRunning ? "ストップ" : "再開"}
+        </Button>
         <ResetButton onReset={reset}>リセット</ResetButton>
       </div>
     </>
