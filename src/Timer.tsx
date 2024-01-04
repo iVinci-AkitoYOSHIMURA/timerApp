@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 // import useSound from "use-sound";
 // import Sound from "";
 import SetTime from "./components/SetTime";
-import { Button, Text } from "@chakra-ui/react";
-import ResetButton from "./components/ResetButton";
+import { Text } from "@chakra-ui/react";
+import TimerButton from "./components/TimerButton";
 import RemainingTime from "./components/RemainingTime";
 
 const Timer = () => {
@@ -74,7 +74,7 @@ const Timer = () => {
         setIsRunning={setIsRunning}
         setTimerSet={setTimerSet}
       />
-      <ResetButton onReset={resetAll}>Allリセット</ResetButton>
+      <TimerButton onClick={resetAll}>Allリセット</TimerButton>
       {errorMessage && (
         <Text color={"red"} fontSize={20}>
           {errorMessage}
@@ -82,15 +82,10 @@ const Timer = () => {
       )}
       <RemainingTime time={time} />
       <div>
-        <Button
-          colorScheme="blue"
-          margin="10"
-          w={40}
-          onClick={handleRestartTimer}
-        >
+        <TimerButton onClick={handleRestartTimer}>
           {isRunning ? "ストップ" : "再開"}
-        </Button>
-        <ResetButton onReset={reset}>リセット</ResetButton>
+        </TimerButton>
+        <TimerButton onClick={reset}>リセット</TimerButton>
       </div>
     </>
   );
