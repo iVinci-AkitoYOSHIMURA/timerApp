@@ -2,11 +2,10 @@ import { useEffect, useState } from "react";
 // import useSound from "use-sound";
 // import Sound from "";
 import SetTime from "./components/SetTime";
-import SetTimeReset from "./components/SetTimeReset";
-import TimeReset from "./components/TimeReset";
-import Toggle from "./components/Toggle";
-import RemainingTime from "./components/RemainingTime";
 import { Text } from "@chakra-ui/react";
+import ResetButton from "./components/ResetButton";
+import RemainingTime from "./components/RemainingTime";
+import Toggle from "./components/Toggle";
 
 const Timer = () => {
   const [seconds, setSeconds] = useState(0);
@@ -18,8 +17,20 @@ const Timer = () => {
   const [timerSet, setTimerSet] = useState(false);
   // const [play] = useSound(Sound);
 
+  const reset = () => {
+    setTime(0);
+    setCurrentTime(0);
+    setIsRunning(false);
+    setTimerSet(false);
+  };
+  const resetAll = () => {
+    reset();
+    setMinutes(0);
+    setSeconds(0);
+  };
+
   useEffect(() => {
-    let intervalId: any = null;
+    let intervalId: number;
     if (isRunning) {
       intervalId = window.setInterval(() => {
         setTime((prev) => {
@@ -54,14 +65,7 @@ const Timer = () => {
         setIsRunning={setIsRunning}
         setTimerSet={setTimerSet}
       />
-      <SetTimeReset
-        setMinutes={setMinutes}
-        setSeconds={setSeconds}
-        setTime={setTime}
-        setCurrentTime={setCurrentTime}
-        setIsRunning={setIsRunning}
-        setTimerSet={setTimerSet}
-      />
+      <ResetButton onReset={resetAll}>Allリセット</ResetButton>
       {errorMessage && (
         <Text color={"red"} fontSize={20}>
           {errorMessage}
@@ -77,12 +81,7 @@ const Timer = () => {
           currentTime={currentTime}
           setCurrentTime={setCurrentTime}
         />
-        <TimeReset
-          setTime={setTime}
-          setCurrentTime={setCurrentTime}
-          setIsRunning={setIsRunning}
-          setTimerSet={setTimerSet}
-        />
+        <ResetButton onReset={reset}>リセット</ResetButton>
       </div>
     </>
   );
